@@ -1,0 +1,28 @@
+package com.example.port.controller;
+
+import com.example.port.model.Portfolio;
+import com.example.port.model.User;
+import com.example.port.repository.PortfolioRepository;
+import com.example.port.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/portfolio")
+public class PortfolioController {
+    @Autowired
+    private PortfolioRepository portfolioRepository;
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping("/{userId}")
+    public List<Portfolio> getPortfolio(@PathVariable Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            return portfolioRepository.findByUser(user);
+        }
+        return List.of();
+    }
+}
