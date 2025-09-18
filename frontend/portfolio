@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Portfolio</title>
+</head>
+<body>
+  <h2>My Portfolio</h2>
+  <table border="1" id="portfolioTable">
+    <tr>
+      <th>Symbol</th><th>Name</th><th>Qty</th><th>Price</th><th>Date</th>
+    </tr>
+  </table>
+  <script>
+    const userId = localStorage.getItem('userId');
+    fetch('/api/portfolio/' + userId)
+      .then(res => res.json())
+      .then(data => {
+        const table = document.getElementById('portfolioTable');
+        data.forEach(stock => {
+          let row = table.insertRow();
+          row.insertCell().innerText = stock.symbol;
+          row.insertCell().innerText = stock.stockName;
+          row.insertCell().innerText = stock.quantity;
+          row.insertCell().innerText = stock.price;
+          row.insertCell().innerText = stock.purchaseDate;
+        });
+      });
+  </script>
+</body>
+</html>
